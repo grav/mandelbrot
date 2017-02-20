@@ -50,8 +50,7 @@
     (let [m (->> (iterate (partial M [x y]) [0 0])
                  (map mag)
                  (take n)
-                 (drop-while #(< % 2))
-                 (take 1))]
+                 (drop-while #(< % 2)))]
       (if (seq m)
-        0.7
+        (/ (count m) n)
         0))))
