@@ -16,14 +16,18 @@
   )
 
 (defn load! [w h img]
-  (let [ctx (-> (js/document.getElementById "canvas")
+  (let [canvas (js/document.getElementById "canvas")
+        ctx (-> canvas
                 (.getContext "2d"))
         coll (->> img
                   (map (fn [c]
                          [(* 255 c) (* 255 c) (* 255 c) 255]))
                   (apply concat))]
-
-    (.putImageData ctx (js/ImageData. (js/Uint8ClampedArray. coll) w h) 0 0)))
+    (set! (.-width canvas) w)
+    (set! (.-height canvas) h)
+    (doto ctx
+      (.clearRect 0 0 w h)
+      (.putImageData (js/ImageData. (js/Uint8ClampedArray. coll) w h) 0 0))))
 
 (defn mag [[a b]]
   (Math/sqrt (+ (* a a) (* b b))))
@@ -58,4 +62,4 @@
 (comment
   (let [[w h] [200 100]]
     (->> (render 100 w h)
-         (load! w h))) )
+         (load! w h))))
