@@ -54,3 +54,8 @@
       (if (seq m)
         (/ (count m) n)
         0))))
+
+(comment
+  (let [[w h] [200 100]]
+    (->> (render 100 w h)
+         (load! w h))) )
